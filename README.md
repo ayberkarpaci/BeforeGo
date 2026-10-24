@@ -15,4 +15,4 @@ TA: Emirhan Özkan · LA: Ayşe Çamlı
 | Ayberk Arpacı (Step 1 Coordinator) | 32525 |
 | Umut Ölçer | 32602 |
 | Doğukan Demirkılıç | 28407 |
-| Yusuf Metehan Yalçı | TBD |
+| Yusuf Metehan Yalçı | 33856 |

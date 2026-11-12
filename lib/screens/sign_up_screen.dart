@@ -30,6 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _createAccount() {
+    if (!_formKey.currentState!.validate()) return;
     Navigator.pushNamedAndRemoveUntil(
       context,
       AppRoutes.home,
@@ -57,6 +58,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     AppTextField(
                       label: 'Full name',
                       controller: _nameController,
+                      validator: (value) =>
+                          (value == null || value.trim().isEmpty)
+                              ? 'Please enter your name'
+                              : null,
                       keyboardType: TextInputType.name,
                       textInputAction: TextInputAction.next,
                     ),
@@ -65,6 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       label: 'Email',
                       hint: 'you@example.com',
                       controller: _emailController,
+                      validator: FieldValidators.email,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                     ),
@@ -72,6 +78,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     AppTextField(
                       label: 'Password',
                       controller: _passwordController,
+                      validator: (value) =>
+                          (value == null || value.length < 6)
+                              ? 'Use at least 6 characters'
+                              : null,
                       obscureText: true,
                       textInputAction: TextInputAction.next,
                     ),
@@ -79,6 +89,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     AppTextField(
                       label: 'Confirm password',
                       controller: _confirmController,
+                      validator: (value) => value != _passwordController.text
+                          ? 'Passwords do not match'
+                          : null,
                       obscureText: true,
                       textInputAction: TextInputAction.done,
                     ),
@@ -96,10 +109,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: AppTextStyles.body,
                         ),
                         TextButton(
-                          onPressed: () => Navigator.pushReplacementNamed(
-                            context,
-                            AppRoutes.login,
-                          ),
+                          onPressed: () =>
+                              Navigator.pushNamed(context, AppRoutes.login),
                           child: const Text('Log in'),
                         ),
                       ],

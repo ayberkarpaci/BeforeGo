@@ -1,22 +1,103 @@
 import 'package:flutter/material.dart';
 
 import '../routes.dart';
-import '../widgets/placeholder_body.dart';
+import '../utils/app_spacing.dart';
+import '../utils/app_text_styles.dart';
+import '../widgets/app_text_field.dart';
+import '../widgets/primary_button.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _logIn() {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      AppRoutes.home,
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: const PlaceholderBody(
-        owner: 'Umut',
-        links: [
-          PlaceholderLink('Log in', AppRoutes.home, clearStack: true),
-          PlaceholderLink('Forgot password?', AppRoutes.forgotPassword),
-          PlaceholderLink('Sign up', AppRoutes.signUp),
-        ],
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: AppSpacing.page,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text('Welcome back', style: AppTextStyles.title),
+                  const SizedBox(height: AppSpacing.xs),
+                  const Text(
+                    'Log in to see your checklists.',
+                    style: AppTextStyles.caption,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  AppTextField(
+                    label: 'Email',
+                    hint: 'you@example.com',
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  AppTextField(
+                    label: 'Password',
+                    controller: _passwordController,
+                    obscureText: true,
+                    textInputAction: TextInputAction.done,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.forgotPassword,
+                      ),
+                      child: const Text('Forgot password?'),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  PrimaryButton(label: 'Log in', onPressed: _logIn),
+                  const SizedBox(height: AppSpacing.md),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Don't have an account?",
+                        style: AppTextStyles.body,
+                      ),
+                      TextButton(
+                        onPressed: () =>
+                            Navigator.pushNamed(context, AppRoutes.signUp),
+                        child: const Text('Sign up'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

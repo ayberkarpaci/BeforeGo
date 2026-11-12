@@ -14,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -25,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _logIn() {
+    if (!_formKey.currentState!.validate()) return;
     Navigator.pushNamedAndRemoveUntil(
       context,
       AppRoutes.home,
@@ -42,7 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: AppSpacing.page,
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
-              child: Column(
+              child: Form(
+                key: _formKey,
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text('Welcome back', style: AppTextStyles.title),
@@ -56,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     label: 'Email',
                     hint: 'you@example.com',
                     controller: _emailController,
+                    validator: FieldValidators.email,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                   ),
@@ -63,6 +68,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   AppTextField(
                     label: 'Password',
                     controller: _passwordController,
+                    validator: (value) => (value == null || value.isEmpty)
+                        ? 'Please enter your password'
+                        : null,
                     obscureText: true,
                     textInputAction: TextInputAction.done,
                   ),
@@ -94,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ],
+              ),
               ),
             ),
           ),

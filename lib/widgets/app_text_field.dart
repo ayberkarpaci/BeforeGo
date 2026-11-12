@@ -3,6 +3,20 @@ import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_text_styles.dart';
 
+/// Validators shared by the forms. Each returns an error message or null.
+class FieldValidators {
+  FieldValidators._();
+
+  static final RegExp _emailPattern = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+
+  static String? email(String? value) {
+    if (value == null || !_emailPattern.hasMatch(value.trim())) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+}
+
 /// Text input used by every form. The validator message is shown under the
 /// field, and it updates while the user types after the first interaction.
 class AppTextField extends StatelessWidget {

@@ -87,8 +87,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: AppSpacing.sm),
                   PrimaryButton(label: 'Log in', onPressed: _logIn),
                   const SizedBox(height: AppSpacing.md),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       const Text(
                         "Don't have an account?",

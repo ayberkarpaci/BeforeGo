@@ -101,8 +101,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onPressed: _createAccount,
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         const Text(
                           'Already have an account?',

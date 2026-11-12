@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../routes.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text_styles.dart';
+import '../widgets/primary_button.dart';
+import '../widgets/secondary_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -35,6 +38,18 @@ class WelcomeScreen extends StatelessWidget {
                   Image.asset(
                     'assets/images/welcome_illustration.png',
                     fit: BoxFit.contain,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  PrimaryButton(
+                    label: 'Log in',
+                    onPressed: () =>
+                        Navigator.pushNamed(context, AppRoutes.login),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  SecondaryButton(
+                    label: 'Create an account',
+                    onPressed: () =>
+                        Navigator.pushNamed(context, AppRoutes.signUp),
                   ),
                 ],
               ),

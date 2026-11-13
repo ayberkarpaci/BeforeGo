@@ -21,6 +21,17 @@ void main() {
       expect(find.text('Please enter your password'), findsOneWidget);
     });
 
+    testWidgets('pressing done on the keyboard validates the form', (tester) async {
+      await tester.pumpWidget(_wrap(const LoginScreen()));
+
+      await tester.tap(find.byType(TextFormField).at(1));
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      expect(find.text('Enter a valid email address'), findsOneWidget);
+      expect(find.text('Please enter your password'), findsOneWidget);
+    });
+
     testWidgets('rejects an email without a domain', (tester) async {
       await tester.pumpWidget(_wrap(const LoginScreen()));
 

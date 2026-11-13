@@ -19,7 +19,7 @@ class FieldValidators {
 
 /// Text input used by every form. The validator message is shown under the
 /// field, and it updates while the user types after the first interaction.
-class AppTextField extends StatelessWidget {
+class AppTextField extends StatefulWidget {
   final String label;
   final String? hint;
   final TextEditingController? controller;
@@ -40,20 +40,39 @@ class AppTextField extends StatelessWidget {
   });
 
   @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  late bool _hidden = widget.obscureText;
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      validator: validator,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
+      controller: widget.controller,
+      validator: widget.validator,
+      obscureText: _hidden,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: AppTextStyles.body,
       decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
+        labelText: widget.label,
+        hintText: widget.hint,
         hintStyle: AppTextStyles.caption,
         errorStyle: AppTextStyles.caption.copyWith(color: AppColors.error),
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                tooltip: _hidden ? 'Show password' : 'Hide password',
+                icon: Icon(
+                  _hidden
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                  color: AppColors.textMuted,
+                ),
+                onPressed: () => setState(() => _hidden = !_hidden),
+              )
+            : null,
       ),
     );
   }

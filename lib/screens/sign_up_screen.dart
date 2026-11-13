@@ -94,6 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           : null,
                       obscureText: true,
                       textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) => _createAccount(),
                     ),
                     const SizedBox(height: AppSpacing.lg),
                     PrimaryButton(

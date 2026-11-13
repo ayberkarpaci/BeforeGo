@@ -73,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         : null,
                     obscureText: true,
                     textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) => _logIn(),
                   ),
                   Align(
                     alignment: Alignment.centerRight,

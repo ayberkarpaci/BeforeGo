@@ -27,6 +27,7 @@ class AppTextField extends StatefulWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const AppTextField({
     super.key,
@@ -37,6 +38,7 @@ class AppTextField extends StatefulWidget {
     this.obscureText = false,
     this.keyboardType,
     this.textInputAction,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -54,6 +56,7 @@ class _AppTextFieldState extends State<AppTextField> {
       obscureText: _hidden,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
+      onFieldSubmitted: widget.onFieldSubmitted,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: AppTextStyles.body,
       decoration: InputDecoration(

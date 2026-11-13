@@ -23,6 +23,7 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/images/logo.png',
+                    semanticLabel: 'BeforeGo logo',
                     width: 72,
                     height: 72,
                   ),
@@ -37,6 +38,7 @@ class WelcomeScreen extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg),
                   Image.asset(
                     'assets/images/welcome_illustration.png',
+                    semanticLabel: 'A checklist with some items ticked',
                     fit: BoxFit.contain,
                   ),
                   const SizedBox(height: AppSpacing.lg),

@@ -68,9 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   AppTextField(
                     label: 'Password',
                     controller: _passwordController,
-                    validator: (value) => (value == null || value.isEmpty)
-                        ? 'Please enter your password'
-                        : null,
+                    validator:
+                        FieldValidators.required('Please enter your password'),
                     obscureText: true,
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (_) => _logIn(),

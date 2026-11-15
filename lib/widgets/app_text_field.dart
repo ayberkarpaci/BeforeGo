@@ -15,6 +15,23 @@ class FieldValidators {
     }
     return null;
   }
+
+  /// Fails when the value is empty or only spaces.
+  static String? Function(String?) required(String message) {
+    return (value) => (value == null || value.trim().isEmpty) ? message : null;
+  }
+
+  static String? password(String? value) {
+    if (value == null || value.length < 6) {
+      return 'Use at least 6 characters';
+    }
+    return null;
+  }
+
+  /// Fails when the value differs from what [other] returns right now.
+  static String? Function(String?) matches(String Function() other) {
+    return (value) => value != other() ? 'Passwords do not match' : null;
+  }
 }
 
 /// Text input used by every form. The validator message is shown under the

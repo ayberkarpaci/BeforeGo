@@ -58,10 +58,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     AppTextField(
                       label: 'Full name',
                       controller: _nameController,
-                      validator: (value) =>
-                          (value == null || value.trim().isEmpty)
-                              ? 'Please enter your name'
-                              : null,
+                      validator:
+                          FieldValidators.required('Please enter your name'),
                       keyboardType: TextInputType.name,
                       textInputAction: TextInputAction.next,
                     ),
@@ -78,10 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     AppTextField(
                       label: 'Password',
                       controller: _passwordController,
-                      validator: (value) =>
-                          (value == null || value.length < 6)
-                              ? 'Use at least 6 characters'
-                              : null,
+                      validator: FieldValidators.password,
                       obscureText: true,
                       textInputAction: TextInputAction.next,
                     ),
@@ -89,9 +84,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     AppTextField(
                       label: 'Confirm password',
                       controller: _confirmController,
-                      validator: (value) => value != _passwordController.text
-                          ? 'Passwords do not match'
-                          : null,
+                      validator: FieldValidators.matches(
+                        () => _passwordController.text,
+                      ),
                       obscureText: true,
                       textInputAction: TextInputAction.done,
                       onFieldSubmitted: (_) => _createAccount(),

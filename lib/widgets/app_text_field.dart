@@ -46,6 +46,7 @@ class AppTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onFieldSubmitted;
   final TextCapitalization textCapitalization;
+  final Iterable<String>? autofillHints;
 
   const AppTextField({
     super.key,
@@ -58,6 +59,7 @@ class AppTextField extends StatefulWidget {
     this.textInputAction,
     this.onFieldSubmitted,
     this.textCapitalization = TextCapitalization.none,
+    this.autofillHints,
   });
 
   @override
@@ -77,6 +79,7 @@ class _AppTextFieldState extends State<AppTextField> {
       textInputAction: widget.textInputAction,
       onFieldSubmitted: widget.onFieldSubmitted,
       textCapitalization: widget.textCapitalization,
+      autofillHints: widget.autofillHints,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: AppTextStyles.body,
       decoration: InputDecoration(

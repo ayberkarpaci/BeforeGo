@@ -61,6 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator:
                           FieldValidators.required('Please enter your name'),
                       keyboardType: TextInputType.name,
+                      textCapitalization: TextCapitalization.words,
                       textInputAction: TextInputAction.next,
                     ),
                     const SizedBox(height: AppSpacing.md),

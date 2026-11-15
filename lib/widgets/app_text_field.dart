@@ -45,6 +45,7 @@ class AppTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onFieldSubmitted;
+  final TextCapitalization textCapitalization;
 
   const AppTextField({
     super.key,
@@ -56,6 +57,7 @@ class AppTextField extends StatefulWidget {
     this.keyboardType,
     this.textInputAction,
     this.onFieldSubmitted,
+    this.textCapitalization = TextCapitalization.none,
   });
 
   @override
@@ -74,6 +76,7 @@ class _AppTextFieldState extends State<AppTextField> {
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
       onFieldSubmitted: widget.onFieldSubmitted,
+      textCapitalization: widget.textCapitalization,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: AppTextStyles.body,
       decoration: InputDecoration(

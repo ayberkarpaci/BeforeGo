@@ -42,78 +42,85 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: AppSpacing.page,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text('Create account', style: AppTextStyles.title),
-                    const SizedBox(height: AppSpacing.lg),
-                    AppTextField(
-                      label: 'Full name',
-                      controller: _nameController,
-                      validator:
-                          FieldValidators.required('Please enter your name'),
-                      keyboardType: TextInputType.name,
-                      textCapitalization: TextCapitalization.words,
-                      textInputAction: TextInputAction.next,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    AppTextField(
-                      label: 'Email',
-                      hint: 'you@example.com',
-                      controller: _emailController,
-                      validator: FieldValidators.email,
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    AppTextField(
-                      label: 'Password',
-                      controller: _passwordController,
-                      validator: FieldValidators.password,
-                      obscureText: true,
-                      textInputAction: TextInputAction.next,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    AppTextField(
-                      label: 'Confirm password',
-                      controller: _confirmController,
-                      validator: FieldValidators.matches(
-                        () => _passwordController.text,
+      body: AutofillGroup(
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: AppSpacing.page,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Text('Create account', style: AppTextStyles.title),
+                      const SizedBox(height: AppSpacing.lg),
+                      AppTextField(
+                        label: 'Full name',
+                        controller: _nameController,
+                        validator: FieldValidators.required(
+                          'Please enter your name',
+                        ),
+                        keyboardType: TextInputType.name,
+                        textCapitalization: TextCapitalization.words,
+                        autofillHints: const [AutofillHints.name],
+                        textInputAction: TextInputAction.next,
                       ),
-                      obscureText: true,
-                      textInputAction: TextInputAction.done,
-                      onFieldSubmitted: (_) => _createAccount(),
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    PrimaryButton(
-                      label: 'Create account',
-                      onPressed: _createAccount,
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        const Text(
-                          'Already have an account?',
-                          style: AppTextStyles.body,
+                      const SizedBox(height: AppSpacing.md),
+                      AppTextField(
+                        label: 'Email',
+                        hint: 'you@example.com',
+                        controller: _emailController,
+                        validator: FieldValidators.email,
+                        keyboardType: TextInputType.emailAddress,
+                        autofillHints: const [AutofillHints.email],
+                        textInputAction: TextInputAction.next,
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      AppTextField(
+                        label: 'Password',
+                        controller: _passwordController,
+                        validator: FieldValidators.password,
+                        obscureText: true,
+                        autofillHints: const [AutofillHints.newPassword],
+                        textInputAction: TextInputAction.next,
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      AppTextField(
+                        label: 'Confirm password',
+                        controller: _confirmController,
+                        validator: FieldValidators.matches(
+                          () => _passwordController.text,
                         ),
-                        TextButton(
-                          onPressed: () =>
-                              Navigator.pushNamed(context, AppRoutes.login),
-                          child: const Text('Log in'),
-                        ),
-                      ],
-                    ),
-                  ],
+                        obscureText: true,
+                        autofillHints: const [AutofillHints.newPassword],
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmitted: (_) => _createAccount(),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      PrimaryButton(
+                        label: 'Create account',
+                        onPressed: _createAccount,
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          const Text(
+                            'Already have an account?',
+                            style: AppTextStyles.body,
+                          ),
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.pushNamed(context, AppRoutes.login),
+                            child: const Text('Log in'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -38,72 +38,77 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: AppSpacing.page,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text('Welcome back', style: AppTextStyles.title),
-                  const SizedBox(height: AppSpacing.xs),
-                  const Text(
-                    'Log in to see your checklists.',
-                    style: AppTextStyles.caption,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  AppTextField(
-                    label: 'Email',
-                    hint: 'you@example.com',
-                    controller: _emailController,
-                    validator: FieldValidators.email,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  AppTextField(
-                    label: 'Password',
-                    controller: _passwordController,
-                    validator:
-                        FieldValidators.required('Please enter your password'),
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    onFieldSubmitted: (_) => _logIn(),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        AppRoutes.forgotPassword,
-                      ),
-                      child: const Text('Forgot password?'),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  PrimaryButton(label: 'Log in', onPressed: _logIn),
-                  const SizedBox(height: AppSpacing.md),
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.center,
+      body: AutofillGroup(
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: AppSpacing.page,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      const Text('Welcome back', style: AppTextStyles.title),
+                      const SizedBox(height: AppSpacing.xs),
                       const Text(
-                        "Don't have an account?",
-                        style: AppTextStyles.body,
+                        'Log in to see your checklists.',
+                        style: AppTextStyles.caption,
                       ),
-                      TextButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context, AppRoutes.signUp),
-                        child: const Text('Sign up'),
+                      const SizedBox(height: AppSpacing.lg),
+                      AppTextField(
+                        label: 'Email',
+                        hint: 'you@example.com',
+                        controller: _emailController,
+                        validator: FieldValidators.email,
+                        keyboardType: TextInputType.emailAddress,
+                        autofillHints: const [AutofillHints.email],
+                        textInputAction: TextInputAction.next,
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      AppTextField(
+                        label: 'Password',
+                        controller: _passwordController,
+                        validator: FieldValidators.required(
+                          'Please enter your password',
+                        ),
+                        obscureText: true,
+                        autofillHints: const [AutofillHints.password],
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmitted: (_) => _logIn(),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            AppRoutes.forgotPassword,
+                          ),
+                          child: const Text('Forgot password?'),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      PrimaryButton(label: 'Log in', onPressed: _logIn),
+                      const SizedBox(height: AppSpacing.md),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          const Text(
+                            "Don't have an account?",
+                            style: AppTextStyles.body,
+                          ),
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.pushNamed(context, AppRoutes.signUp),
+                            child: const Text('Sign up'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
               ),
             ),
           ),

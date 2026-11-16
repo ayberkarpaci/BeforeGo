@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../models/checklist.dart';
 import '../models/dummy_data.dart';
 import '../routes.dart';
-import '../widgets/placeholder_body.dart';
+import '../utils/app_spacing.dart';
+import '../utils/app_text_styles.dart';
+import '../widgets/item_tile.dart';
+import '../widgets/primary_button.dart';
+import '../widgets/secondary_button.dart';
 
 class ChecklistDetailScreen extends StatelessWidget {
   const ChecklistDetailScreen({super.key});
@@ -15,17 +19,43 @@ class ChecklistDetailScreen extends StatelessWidget {
             dummyChecklists.first;
 
     return Scaffold(
-      appBar: AppBar(title: Text(checklist.title)),
-      body: PlaceholderBody(
-        owner: 'Doğukan',
-        links: [
-          PlaceholderLink('Start packing', AppRoutes.packing, arguments: checklist),
-          PlaceholderLink(
-            'Forgot something last time?',
-            AppRoutes.forgotReport,
-            arguments: checklist,
+      appBar: AppBar(
+        title: Text(checklist.title),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pushNamed(
+              context,
+              AppRoutes.checklistForm,
+              arguments: checklist,
+            ),
+            child: const Text('Edit'),
           ),
-          PlaceholderLink('Edit', AppRoutes.checklistForm, arguments: checklist),
+        ],
+      ),
+      body: ListView(
+        padding: AppSpacing.page,
+        children: [
+          const Text('ITEMS, SORTED BY SCORE', style: AppTextStyles.label),
+          const SizedBox(height: AppSpacing.sm),
+          for (final item in checklist.sortedItems) ItemTile(item: item),
+          const SizedBox(height: AppSpacing.md),
+          PrimaryButton(
+            label: 'Start packing',
+            onPressed: () => Navigator.pushNamed(
+              context,
+              AppRoutes.packing,
+              arguments: checklist,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          SecondaryButton(
+            label: 'Forgot something last time?',
+            onPressed: () => Navigator.pushNamed(
+              context,
+              AppRoutes.forgotReport,
+              arguments: checklist,
+            ),
+          ),
         ],
       ),
     );

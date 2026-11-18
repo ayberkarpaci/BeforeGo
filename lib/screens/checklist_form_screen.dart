@@ -30,6 +30,7 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
   final _nameController = TextEditingController();
   final _itemController = TextEditingController();
   final List<String> _items = [];
+  bool _showItemsError = false;
   Checklist? _checklist;
   String _city = defaultCity;
   bool _loaded = false;
@@ -65,11 +66,14 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
     setState(() {
       _items.add(name);
       _itemController.clear();
+      _showItemsError = false;
     });
   }
 
   void _save() {
-    if (!_formKey.currentState!.validate()) return;
+    final formOk = _formKey.currentState!.validate();
+    setState(() => _showItemsError = _items.isEmpty);
+    if (!formOk || _items.isEmpty) return;
   }
 
   @override
@@ -138,6 +142,14 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
                   ),
               ],
             ),
+            if (_showItemsError)
+              Padding(
+                padding: const EdgeInsets.only(top: AppSpacing.sm),
+                child: Text(
+                  'Add at least one item',
+                  style: AppTextStyles.caption.copyWith(color: AppColors.error),
+                ),
+              ),
             const SizedBox(height: AppSpacing.lg),
             PrimaryButton(label: 'Save', onPressed: _save),
           ],

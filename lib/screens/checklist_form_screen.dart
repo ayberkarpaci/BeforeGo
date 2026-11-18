@@ -131,7 +131,11 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
               spacing: AppSpacing.sm,
               runSpacing: AppSpacing.sm,
               children: [
-                for (final item in _items) Chip(label: Text(item)),
+                for (var i = 0; i < _items.length; i++)
+                  Chip(
+                    label: Text(_items[i]),
+                    onDeleted: () => setState(() => _items.removeAt(i)),
+                  ),
               ],
             ),
             const SizedBox(height: AppSpacing.lg),

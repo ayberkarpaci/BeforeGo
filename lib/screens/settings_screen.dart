@@ -5,6 +5,7 @@ import '../routes.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text_styles.dart';
+import '../widgets/secondary_button.dart';
 
 /// Third tab: saved weather cities, preferences and log out.
 class SettingsScreen extends StatefulWidget {
@@ -123,11 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           const SizedBox(height: AppSpacing.xl),
-          OutlinedButton.icon(
-            onPressed: _confirmLogOut,
-            icon: const Icon(Icons.logout),
-            label: const Text('Log out'),
-          ),
+          SecondaryButton(label: 'Log out', onPressed: _confirmLogOut),
         ],
       ),
     );

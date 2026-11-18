@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/checklist.dart';
 import '../models/dummy_data.dart';
+import '../routes.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text_styles.dart';
@@ -74,6 +75,25 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
     final formOk = _formKey.currentState!.validate();
     setState(() => _showItemsError = _items.isEmpty);
     if (!formOk || _items.isEmpty) return;
+
+    final name = _nameController.text.trim();
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Checklist saved'),
+        content: Text('"$name" was added with ${_items.length} items.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pushNamedAndRemoveUntil(
+              dialogContext,
+              AppRoutes.home,
+              (route) => false,
+            ),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

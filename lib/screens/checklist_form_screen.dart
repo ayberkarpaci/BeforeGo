@@ -28,6 +28,8 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
   IconData _icon = Icons.local_library_outlined;
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _itemController = TextEditingController();
+  final List<String> _items = [];
   Checklist? _checklist;
   String _city = defaultCity;
   bool _loaded = false;
@@ -43,13 +45,27 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
       _nameController.text = _checklist!.title;
       _city = _checklist!.city;
       _icon = _checklist!.icon;
+      for (final item in _checklist!.items) {
+        _items.add(item.name);
+      }
     }
   }
 
   @override
   void dispose() {
     _nameController.dispose();
+    _itemController.dispose();
     super.dispose();
+  }
+
+  void _addItem() {
+    final name = _itemController.text.trim();
+    if (name.isEmpty) return;
+
+    setState(() {
+      _items.add(name);
+      _itemController.clear();
+    });
   }
 
   void _save() {
@@ -86,6 +102,36 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
               runSpacing: AppSpacing.sm,
               children: [
                 for (final icon in _icons) _iconButton(icon),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text('ITEMS', style: AppTextStyles.label),
+            const SizedBox(height: AppSpacing.sm),
+            Row(
+              children: [
+                Expanded(
+                  child: AppTextField(
+                    label: 'Add item',
+                    controller: _itemController,
+                    textCapitalization: TextCapitalization.sentences,
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) => _addItem(),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                IconButton.filled(
+                  onPressed: _addItem,
+                  icon: const Icon(Icons.add),
+                  tooltip: 'Add item',
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Wrap(
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.sm,
+              children: [
+                for (final item in _items) Chip(label: Text(item)),
               ],
             ),
             const SizedBox(height: AppSpacing.lg),

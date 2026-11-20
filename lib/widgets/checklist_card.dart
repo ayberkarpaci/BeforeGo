@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../models/checklist.dart';
 import '../utils/app_colors.dart';
+import '../utils/app_date_utils.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text_styles.dart';
 
-/// One checklist on the Home screen: cover image, title, city and item count,
-/// plus a button that removes the checklist.
+/// One checklist on the Home screen: cover image, title, city, item count and
+/// when it was last packed, plus a button that removes the checklist.
 class ChecklistCard extends StatelessWidget {
   final Checklist checklist;
   final VoidCallback onTap;
@@ -46,6 +47,12 @@ class ChecklistCard extends StatelessWidget {
                     const SizedBox(height: AppSpacing.xs),
                     Text(
                       '${checklist.city} · ${checklist.items.length} items',
+                      style: AppTextStyles.caption,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      AppDateUtils.lastPackedLabel(checklist.lastPacked),
                       style: AppTextStyles.caption,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

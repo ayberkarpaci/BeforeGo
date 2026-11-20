@@ -23,6 +23,10 @@ void main() {
     expect(find.text('Library'), findsOneWidget);
     expect(find.text('Istanbul · 5 items'), findsOneWidget);
     expect(find.text('2 often forgotten'), findsOneWidget);
+    expect(
+      find.textContaining('Last packed'),
+      findsNWidgets(dummyChecklists.length),
+    );
   });
 
   testWidgets('Home shows the weather tip for the default city', (tester) async {

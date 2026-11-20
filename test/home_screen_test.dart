@@ -3,8 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:before_go/models/dummy_data.dart';
 import 'package:before_go/screens/home_screen.dart';
+import 'package:before_go/screens/main_shell.dart';
 import 'package:before_go/utils/app_theme.dart';
 import 'package:before_go/widgets/checklist_card.dart';
+import 'package:before_go/widgets/weather_banner.dart';
 
 Future<void> pumpHome(WidgetTester tester) async {
   await tester.pumpWidget(
@@ -21,6 +23,35 @@ void main() {
     expect(find.text('Library'), findsOneWidget);
     expect(find.text('Istanbul · 5 items'), findsOneWidget);
     expect(find.text('2 often forgotten'), findsOneWidget);
+  });
+
+  testWidgets('Home shows the weather tip for the default city', (tester) async {
+    await pumpHome(tester);
+
+    expect(find.byType(WeatherBanner), findsOneWidget);
+    expect(find.text('Istanbul today: rain 70%'), findsOneWidget);
+    expect(find.text('Take: Umbrella'), findsOneWidget);
+  });
+
+  testWidgets('Choosing a new default city in Settings updates the Home tip',
+      (tester) async {
+    final originalDefault = defaultCity;
+    addTearDown(() => defaultCity = originalDefault);
+
+    await tester.pumpWidget(
+      MaterialApp(theme: AppTheme.light, home: const MainShell()),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Settings').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Ankara'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Checklists'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ankara today: rain 10%'), findsOneWidget);
+    expect(find.text('Take: Gloves and scarf'), findsOneWidget);
   });
 
   testWidgets('Removing a checklist can be undone', (tester) async {

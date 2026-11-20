@@ -19,10 +19,12 @@ class _MainShellState extends State<MainShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // IndexedStack keeps each tab's state when switching tabs.
+      // IndexedStack keeps each tab's state when switching tabs. The tabs are
+      // not const so they rebuild on every switch, e.g. Home shows the new
+      // default city right after it is changed in Settings.
       body: IndexedStack(
         index: _currentIndex,
-        children: const [
+        children: [
           HomeScreen(),
           StatisticsScreen(),
           SettingsScreen(),

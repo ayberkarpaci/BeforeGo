@@ -5,6 +5,7 @@ import '../models/dummy_data.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text_styles.dart';
+import '../widgets/primary_button.dart';
 
 class ForgotReportScreen extends StatefulWidget {
   const ForgotReportScreen({super.key});
@@ -18,7 +19,18 @@ class _ForgotReportScreenState extends State<ForgotReportScreen> {
   final Set<String> forgottenIds = <String>{};
   String extraText = '';
   String? errorText;
-  bool isSaved = false;
+  bool loadedChecklist = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (loadedChecklist) return;
+    loadedChecklist = true;
+
+    // Report on the checklist that was opened on the detail screen.
+    final opened = ModalRoute.of(context)?.settings.arguments as Checklist?;
+    if (opened != null) checklist = opened;
+  }
 
   void updateItem(String itemId) {
     setState(() {
@@ -34,14 +46,16 @@ class _ForgotReportScreenState extends State<ForgotReportScreen> {
   }
 
   void onSave() {
-    if (forgottenIds.isEmpty && extraText.isEmpty) {
+    if (forgottenIds.isEmpty && extraText.trim().isEmpty) {
       setState(() {
-        isSaved = false;
         errorText = 'Select an item or type one';
       });
       return;
     }
 
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Saved. Scores will update next session.')),
+    );
     Navigator.pop(context);
   }
 
@@ -119,26 +133,7 @@ class _ForgotReportScreenState extends State<ForgotReportScreen> {
             style: AppTextStyles.caption,
           ),
           const SizedBox(height: AppSpacing.lg),
-          Row(
-            children: [
-              Checkbox(
-                value: isSaved,
-                activeColor: AppColors.primary,
-                onChanged: (bool? value) {
-                  setState(() {
-                    isSaved = value ?? false;
-                  });
-                  if (isSaved) {
-                    onSave();
-                  }
-                },
-              ),
-              Text(
-                'Save',
-                style: AppTextStyles.bodyBold,
-              ),
-            ],
-          ),
+          PrimaryButton(label: 'Save', onPressed: onSave),
         ],
       ),
     );

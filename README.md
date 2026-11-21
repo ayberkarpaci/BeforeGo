@@ -73,6 +73,8 @@ test/                  widget and unit tests
 | 10 | Statistics | Yusuf Metehan Yalçı |
 | 11 | Settings | Ayberk Arpacı |
 
+Checklist cover photos are loaded from [Unsplash](https://unsplash.com) (free to use under the Unsplash License).
+
 ## Group Details
 CS310 Mobile Application Development – Fall 2026 – **Group 1**
 TA: Emirhan Özkan · LA: Ayşe Çamlı

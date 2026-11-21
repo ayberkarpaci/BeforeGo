@@ -51,6 +51,9 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
         _items.add(item.name);
       }
     }
+
+    // The checklist's city may have been removed in Settings since it was made.
+    if (!savedCities.contains(_city)) _city = defaultCity;
   }
 
   @override
@@ -81,7 +84,10 @@ class _ChecklistFormScreenState extends State<ChecklistFormScreen> {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: const Text('Checklist saved'),
-        content: Text('"$name" was added with ${_items.length} items.'),
+        content: Text(
+          '"$name" was ${_checklist == null ? 'added' : 'updated'} '
+          'with ${_items.length} items.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pushNamedAndRemoveUntil(

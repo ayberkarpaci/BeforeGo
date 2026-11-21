@@ -82,6 +82,8 @@ class StatisticsScreen extends StatelessWidget {
           'Statistics',
           style: AppTextStyles.heading,
         ),
+        // A tab of the home shell, so it never shows a back arrow.
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         padding: AppSpacing.page,

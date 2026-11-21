@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../models/checklist.dart';
 import '../models/checklist_item.dart';
 import '../models/dummy_data.dart';
-import '../utils/app_colors.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text_styles.dart';
+import '../widgets/item_tile.dart';
 import '../widgets/primary_button.dart';
 
 class ForgotReportScreen extends StatefulWidget {
@@ -79,33 +79,10 @@ class _ForgotReportScreenState extends State<ForgotReportScreen> {
           ),
           const SizedBox(height: AppSpacing.md),
           for (final ChecklistItem item in items)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.sm),
-                  child: Row(
-                    children: [
-                      Checkbox(
-                        value: forgottenIds.contains(item.id),
-                        activeColor: AppColors.primary,
-                        onChanged: (bool? value) => updateItem(item.id),
-                      ),
-                      Expanded(
-                        child: Text(
-                          item.name,
-                          style: AppTextStyles.bodyBold,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      Text(
-                        'Score ${item.score}',
-                        style: AppTextStyles.caption,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            ItemTile(
+              item: item,
+              checked: forgottenIds.contains(item.id),
+              onChanged: (bool? value) => updateItem(item.id),
             ),
           const SizedBox(height: AppSpacing.lg),
           Text(

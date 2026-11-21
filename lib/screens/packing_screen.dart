@@ -7,6 +7,7 @@ import '../routes.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text_styles.dart';
+import '../widgets/item_tile.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/weather_banner.dart';
 
@@ -151,40 +152,11 @@ class _PackingScreenState extends State<PackingScreen> {
             )
           else
             for (final ChecklistItem item in items)
-              Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.sm),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: checkedIds.contains(item.id),
-                          activeColor: AppColors.primary,
-                          onChanged: (bool? value) => updateItem(item.id),
-                        ),
-                        Expanded(
-                          child: Text(
-                            item.name,
-                            style: AppTextStyles.bodyBold,
-                          ),
-                        ),
-                          if (item.isOftenForgotten)
-                          Padding(
-                            padding: const EdgeInsets.only(left: AppSpacing.sm),
-                            child: Container(
-                              padding: const EdgeInsets.all(AppSpacing.xs),
-                              color: AppColors.warningLight,
-                              child: Text(
-                                'Often forgotten',
-                                style: AppTextStyles.caption,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
+              ItemTile(
+                item: item,
+                showScore: false,
+                checked: checkedIds.contains(item.id),
+                onChanged: (bool? value) => updateItem(item.id),
               ),
           const SizedBox(height: AppSpacing.md),
           PrimaryButton(label: "I'm ready", onPressed: finishPacking),

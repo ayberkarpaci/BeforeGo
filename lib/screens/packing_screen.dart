@@ -7,6 +7,7 @@ import '../routes.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text_styles.dart';
+import '../widgets/primary_button.dart';
 import '../widgets/weather_banner.dart';
 
 class PackingScreen extends StatefulWidget {
@@ -20,7 +21,28 @@ class _PackingScreenState extends State<PackingScreen> {
   Checklist checklist = dummyChecklists[0];
   List<ChecklistItem> items = List<ChecklistItem>.from(dummyChecklists[0].sortedItems,);
   final Set<String> checkedIds = <String>{};
-  bool isReady = false;
+  bool loadedChecklist = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (loadedChecklist) return;
+    loadedChecklist = true;
+
+    // Show the checklist that was opened on the detail screen.
+    final opened = ModalRoute.of(context)?.settings.arguments as Checklist?;
+    if (opened != null) {
+      checklist = opened;
+      items = List<ChecklistItem>.from(opened.sortedItems);
+    }
+  }
+
+  void finishPacking() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Have a good trip!')),
+    );
+    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+  }
 
   void updateItem(String itemId) {
     setState(() {
@@ -165,26 +187,7 @@ class _PackingScreenState extends State<PackingScreen> {
                 ),
               ),
           const SizedBox(height: AppSpacing.md),
-          Row(
-            children: [
-              Checkbox(
-                value: isReady,
-                activeColor: AppColors.primary,
-                onChanged: (bool? value) {
-                  setState(() {
-                    isReady = value ?? false;
-                  });
-                  if (isReady) {
-                    Navigator.pushNamed(context, AppRoutes.home);
-                  }
-                },
-              ),
-              Text(
-                "I'm ready",
-                style: AppTextStyles.bodyBold,
-              ),
-            ],
-          ),
+          PrimaryButton(label: "I'm ready", onPressed: finishPacking),
         ],
       ),
     );

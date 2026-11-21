@@ -34,10 +34,18 @@ class ItemTile extends StatelessWidget {
       child: Row(
         children: [
           if (checked != null) Checkbox(value: checked, onChanged: onChanged),
+          // Wrap moves the badge under the name when the row is too narrow.
           Expanded(
-            child: Text(item.name, style: AppTextStyles.body),
+            child: Wrap(
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.xs,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(item.name, style: AppTextStyles.body),
+                if (item.isOftenForgotten) _badge(),
+              ],
+            ),
           ),
-          if (item.isOftenForgotten) _badge(),
           if (showScore) ...[
             const SizedBox(width: AppSpacing.sm),
             Text('score ${item.score}', style: AppTextStyles.caption),

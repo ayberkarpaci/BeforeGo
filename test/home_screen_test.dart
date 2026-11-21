@@ -74,6 +74,25 @@ void main() {
     expect(find.byType(ChecklistCard), findsNWidgets(dummyChecklists.length));
   });
 
+  testWidgets('The Undo bar does not cover the + button, which only shows on Home',
+      (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(theme: AppTheme.light, home: const MainShell()),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip('Remove checklist').first);
+    await tester.pumpAndSettle();
+
+    final button = tester.getRect(find.byType(FloatingActionButton));
+    final undoBar = tester.getRect(find.byType(SnackBar));
+    expect(button.overlaps(undoBar), isFalse);
+
+    await tester.tap(find.text('Stats'));
+    await tester.pumpAndSettle();
+    expect(find.byType(FloatingActionButton), findsNothing);
+  });
+
   testWidgets('Home shows a message when every checklist is removed', (tester) async {
     await pumpHome(tester);
 

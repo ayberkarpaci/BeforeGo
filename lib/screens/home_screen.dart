@@ -82,11 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, AppRoutes.checklistForm),
-        tooltip: 'New checklist',
-        child: const Icon(Icons.add),
-      ),
+      // The + button lives in MainShell so it moves up when a SnackBar shows.
     );
   }
 }
